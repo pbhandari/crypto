@@ -75,24 +75,70 @@ function decrypt(text, shift, alphabet)
     return ciphertext;
 }
 
-function ciphertext()
+function ciphertext_only( ciphertext, alphabet)
 {
-    /*Only a copy of the cipher text is known*/
+    /*Only a copy of the cipher text is known, the best
+    * course of action in this case is to try all 
+    * possibilities*/
+
+    var alphabet = typeof alphabet !== 'undefined' ? alphabet : alpha; 
+    var all_shifts = new Array();
+
+    for(var i=0; i<alphabet.length;i++)i
+    {
+        all_shifts[i] = decrypt(ciphertext, i, alphabet);
+    }
+
+    return all_shifts;
+
 }
 
-function known_plaintext()
+function known_plaintext(plaintext, ciphertext, alphabet)
 {
-    /*a copy of both the plaintext and ciphertext is known*/
+    /*a copy of both the plaintext and ciphertext is known,
+    *deduce the key*/
+
+    //check for alphabet
+    var alphabet = typeof alphabet !== 'undefined' ? alphabet : alpha; 
+
+    //deduce the key
+    var key = (alphabet.indexOf(ciphertext[0]) - alphabet.indexOf(plaintext[0]))%alphabet.length;
+
+    return key;
 }
 
-function chosen_plaintext()
+function chosen_plaintext(encryp_func, alphabet)
 {
-   /*access to encryption*/
+    /*access to encryption*/
+
+    //check for alphabet
+    var alphabet = typeof alphabet !== 'undefined' ? alphabet : alpha; 
+   
+    //get encrypted letter
+    var coded_letter = encryp_funct(a[0], alphabet);
+   
+    //the new index is the key used to shift 
+    var key = alphabet.indexOf(coded_letter);
+
+    return key;
 }
 
-function chosen_ciphertext()
+function chosen_ciphertext(decrypt_func, alphabet)
 {
-   /*access to decryption machine*/
+    /*access to decryption machine*/
+
+    //check for alphabet
+    var alphabet = typeof alphabet !== 'undefined' ? alphabet : alpha; 
+    
+    //get encrypted letter
+    var decoded_letter = decryp_funct(a[0], alphabet);
+   
+    //the new index is the key used to shift 
+    var key = alphabet.indexOf(decoded_letter);
+
+    key = (key * (-1)) % alphabet.length;
+
+    return key;
 }
 
 
