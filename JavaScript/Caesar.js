@@ -13,7 +13,7 @@ function mod(n, m) {
         return ((m % n) + n) % n;
 }
 
-function Caeser(shift, alphabet){
+function Caesar(shift, alphabet){
 
     var shift=shift;
     this.alphabet = typeof alphabet !== 'undefined' ? alphabet : alpha; 
@@ -96,7 +96,7 @@ function rand_encrypt(plaintext, alphabet)
     var random = Math.floor((Math.random()*alphabet.length)+1);
 
     //initialize cipher
-    var cipher = new Caeser(random, alphabet);    
+    var cipher = new Caesar(random, alphabet);    
 
     //encrypt plaintext
     var ciphertext = cipher.encrypt(plaintext);
@@ -115,7 +115,7 @@ function rand_decrypt(ciphertext, alphabet)
     var random = Math.floor((Math.random()*alphabet.length)+1);
 
     //initialize cipher
-    var cipher = new Caeser(random, alphabet);
+    var cipher = new Caesar(random, alphabet);
 
     //decrypt ciphertext
     var plaintext = cipher.decrypt(ciphertext);
@@ -134,7 +134,7 @@ function ciphertext_only( ciphertext, alphabet)
 
     for(var i=0; i<alphabet.length;i++)
     {
-        var cipher = new Caeser(i, alphabet);
+        var cipher = new Caesar(i, alphabet);
         all_shifts[i] = cipher.decrypt(ciphertext);
     }
 
@@ -197,7 +197,7 @@ function chosen_ciphertext(cipher, alphabet)
 function sanity_checks(){
 
     //test initialization encryption and decryption
-    var c = new Caeser(3);
+    var c = new Caesar(3);
     var hey = c.encrypt("hello");
     console.log(hey);
     console.log(c.decrypt(hey));
@@ -210,7 +210,7 @@ function sanity_checks(){
     console.log(known_plaintext("hello", "khoor"));
 
     //test chosen ciphertext and chosen plaintext
-    var c = new Caeser(8);
+    var c = new Caesar(8);
     console.log(chosen_plaintext(c)); 
     console.log(chosen_ciphertext(c));
 
