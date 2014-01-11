@@ -9,70 +9,114 @@ var alpha = new Array("a", "b", "c", "d", "e", "f", "g",
 			  "o", "p", "q", "r", "s", "t", "u", 
 			  "v", "w", "x", "y", "z");
 
-function encrypt(text, shift, alphabet)
-{
-    /*
-    *basic encryption algorithm
-    */
+function Caeser(shift, alphabet){
 
-    //for other alphabets
-    var alphabet = typeof alphabet !== 'undefined' ? alphabet : alpha; 
-    var text_lower = text.toLowerCase();
+    this.shift=shift;
+    this.alphabet = typeof alphabet !== 'undefined' ? alphabet : alpha; 
+     
 
-    //holds the ciphertext
-    var ciphertext = "";
-
-    for(var i=0; i<text_lower.length; i++)
+    function encrypt(text)
     {
+        /*
+        *basic encryption algorithm
+        */
 
-	//place the current letter is in the alphabet
-	var plaintext_index = alphabet.indexOf(text_lower[i]);
+        //for other alphabets
+        var text_lower = text.toLowerCase();
 
-	if (plaintext_index != -1)
+        //holds the ciphertext
+        var ciphertext = "";
+
+        for(var i=0; i<text_lower.length; i++)
         {
-	    //place the index is shifted 
-	    var ciphertext_index = (plaintext_index + shift)%alphabet.length;
+
+	    //place the current letter is in the alphabet
+	    var plaintext_index = this.alphabet.indexOf(text_lower[i]);
+
+	    if (plaintext_index != -1)
+            {
+	        //place the index is shifted 
+	        var ciphertext_index = (plaintext_index + this.shift)%this.alphabet.length;
 	
-            //retrieve the new letter
-            ciphertext = ciphertext + alphabet[ciphertext_index];
+                //retrieve the new letter
+                ciphertext = ciphertext + this.alphabet[ciphertext_index];
+            }
         }
+
+        return ciphertext;
+
     }
 
-    return ciphertext;
+
+    function decrypt(text)
+    {
+        /*
+        *basic decryption algorithm
+        */
+
+        //for other alphabets
+        var text_lower = text.toLowerCase();
+
+        //holds the ciphertext
+        var plaintext = "";
+
+        for(var i=0; i<text_lower.length; i++)
+        {
+
+	    //place the current letter is in the alphabet
+	    var ciphertext_index = this.alphabet.indexOf(text_lower[i]);
+
+	    if (ciphertext_index != -1)
+            {
+	        //place the index is shifted 
+	        var plaintext_index = (ciphertext_index - this.shift)%this.alphabet.length;
+	
+                //retrieve the new letter
+                plaintext = plaintext + this.alphabet[plaintext_index];
+            }
+        }
+
+        return ciphertext;
+    }
 
 }
 
-
-function decrypt(text, shift, alphabet)
+function rand_encrypt(plaintext, alphabet)
 {
-    /*
-    *basic decryption algorithm
-    */
+    /*encrypt with a random key*/
 
-    //for other alphabets
+    //check the alphabet
     var alphabet = typeof alphabet !== 'undefined' ? alphabet : alpha; 
-    var text_lower = text.toLowerCase();
 
-    //holds the ciphertext
-    var plaintext = "";
+    //generate random shift
+    var random = Math.floor((Math.random()*alphabet.length)+1);
 
-    for(var i=0; i<text_lower.length; i++)
-    {
+    //initialize cipher
+    var cipher = Caeser(random, alphabet);    
 
-	//place the current letter is in the alphabet
-	var ciphertext_index = alphabet.indexOf(text_lower[i]);
+    //encrypt plaintext
+    var ciphertext = cipher.encrypt(plaintext);
 
-	if (ciphertext_index != -1)
-        {
-	    //place the index is shifted 
-	    var plaintext_index = (ciphertext_index - shift)%alphabet.length;
-	
-            //retrieve the new letter
-            plaintext = plaintext + alphabet[plaintext_index];
-        }
-    }
+    return ciphertext
+}
 
-    return ciphertext;
+function rand_decrypt(ciphertext, alphabet)
+{
+    /*decrypt with a random key*/
+
+    //check the alphabet
+    var alphabet = typeof alphabet !== 'undefined' ? alphabet : alpha; 
+
+    //generate random shift
+    var random = Math.floor((Math.random()*alphabet.length)+1);
+
+    //initialize cipher
+    var cipher = Caeserrandom, alphabet);
+
+    //decrypt ciphertext
+    var plaintext = cipher.decrypt(ciphertext);
+
+    return plaintext
 }
 
 function ciphertext_only( ciphertext, alphabet)
