@@ -9,12 +9,16 @@ var alpha = new Array("a", "b", "c", "d", "e", "f", "g",
 			  "o", "p", "q", "r", "s", "t", "u", 
 			  "v", "w", "x", "y", "z");
 
+function mod(n, m) {
+        return ((m % n) + n) % n;
+}
+
 function Caeser(shift, alphabet){
 
     this.shift=shift;
     this.alphabet = typeof alphabet !== 'undefined' ? alphabet : alpha; 
      
-
+    this.encrypt=encrypt;
     function encrypt(text)
     {
         /*
@@ -36,7 +40,7 @@ function Caeser(shift, alphabet){
 	    if (plaintext_index != -1)
             {
 	        //place the index is shifted 
-	        var ciphertext_index = (plaintext_index + this.shift)%this.alphabet.length;
+	        var ciphertext_index = (this.alphabet.length, (plaintext_index + this.shift));
 	
                 //retrieve the new letter
                 ciphertext = ciphertext + this.alphabet[ciphertext_index];
@@ -47,7 +51,7 @@ function Caeser(shift, alphabet){
 
     }
 
-
+    this.decrypt=decrypt;
     function decrypt(text)
     {
         /*
@@ -69,14 +73,14 @@ function Caeser(shift, alphabet){
 	    if (ciphertext_index != -1)
             {
 	        //place the index is shifted 
-	        var plaintext_index = (ciphertext_index - this.shift)%this.alphabet.length;
+	        var plaintext_index = mod(this.alphabet.length,(ciphertext_index - this.shift));
 	
                 //retrieve the new letter
                 plaintext = plaintext + this.alphabet[plaintext_index];
             }
         }
 
-        return ciphertext;
+        return plaintext;
     }
 
 }
@@ -92,7 +96,7 @@ function rand_encrypt(plaintext, alphabet)
     var random = Math.floor((Math.random()*alphabet.length)+1);
 
     //initialize cipher
-    var cipher = Caeser(random, alphabet);    
+    var cipher = new Caeser(random, alphabet);    
 
     //encrypt plaintext
     var ciphertext = cipher.encrypt(plaintext);
@@ -111,12 +115,12 @@ function rand_decrypt(ciphertext, alphabet)
     var random = Math.floor((Math.random()*alphabet.length)+1);
 
     //initialize cipher
-    var cipher = Caeserrandom, alphabet);
+    var cipher = new Caeser(random, alphabet);
 
     //decrypt ciphertext
     var plaintext = cipher.decrypt(ciphertext);
 
-    return plaintext
+    return plaintext;
 }
 
 function ciphertext_only( ciphertext, alphabet)
@@ -128,9 +132,10 @@ function ciphertext_only( ciphertext, alphabet)
     var alphabet = typeof alphabet !== 'undefined' ? alphabet : alpha; 
     var all_shifts = new Array();
 
-    for(var i=0; i<alphabet.length;i++)i
+    for(var i=0; i<alphabet.length;i++)
     {
-        all_shifts[i] = decrypt(ciphertext, i, alphabet);
+        var cipher = new Caeser(i, alphabet);
+        all_shifts[i] = cipher.decrypt(ciphertext);
     }
 
     return all_shifts;
@@ -146,20 +151,22 @@ function known_plaintext(plaintext, ciphertext, alphabet)
     var alphabet = typeof alphabet !== 'undefined' ? alphabet : alpha; 
 
     //deduce the key
-    var key = (alphabet.indexOf(ciphertext[0]) - alphabet.indexOf(plaintext[0]))%alphabet.length;
+    var key = mod(alphabet.length, (alphabet.indexOf(ciphertext[0]) - alphabet.indexOf(plaintext[0])));
 
     return key;
 }
 
-function chosen_plaintext(encryp_func, alphabet)
+function chosen_plaintext(cipher, alphabet)
 {
-    /*access to encryption*/
+    /*access to encryption machine. currently passes a
+    * an object instance.
+    */
 
     //check for alphabet
     var alphabet = typeof alphabet !== 'undefined' ? alphabet : alpha; 
    
     //get encrypted letter
-    var coded_letter = encryp_funct(a[0], alphabet);
+    var coded_letter = cipher.encrypt(alphabet[0], alphabet);
    
     //the new index is the key used to shift 
     var key = alphabet.indexOf(coded_letter);
@@ -167,22 +174,46 @@ function chosen_plaintext(encryp_func, alphabet)
     return key;
 }
 
-function chosen_ciphertext(decrypt_func, alphabet)
+function chosen_ciphertext(cipher, alphabet)
 {
-    /*access to decryption machine*/
+    /*access to decryption machine. currently passes a
+    * an object instance.
+    */
 
     //check for alphabet
     var alphabet = typeof alphabet !== 'undefined' ? alphabet : alpha; 
     
     //get encrypted letter
-    var decoded_letter = decryp_funct(a[0], alphabet);
+    var decoded_letter = cipher.decrypt(alphabet[0], alphabet);
    
     //the new index is the key used to shift 
     var key = alphabet.indexOf(decoded_letter);
 
-    key = (key * (-1)) % alphabet.length;
+    key = mod(alphabet.length, (key * (-1)));
 
     return key;
 }
 
+function sanity_checks(){
+
+    //test initialization encryption and decryption
+    var c = new Caeser(3);
+    var hey = c.encrypt("hello");
+    console.log(hey);
+    console.log(c.decrypt(hey));
+
+    //test ciphertext only
+    var possible = ciphertext_only(hey);
+    console.log(possible);
+
+    //test known  plaintext
+    console.log(known_plaintext("hello", "khoor"));
+
+    //test chosen ciphertext and chosen plaintext
+    var c = new Caeser(8);
+    console.log(chosen_plaintext(c)); 
+    console.log(chosen_ciphertext(c));
+
+
+}
 
