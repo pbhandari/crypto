@@ -54,21 +54,21 @@ function decrypt(text, shift, alphabet)
     var text_lower = text.toLowerCase();
 
     //holds the ciphertext
-    var ciphertext = "";
+    var plaintext = "";
 
     for(var i=0; i<text_lower.length; i++)
     {
 
 	//place the current letter is in the alphabet
-	var plaintext_index = alphabet.indexOf(text_lower[i]);
+	var ciphertext_index = alphabet.indexOf(text_lower[i]);
 
-	if (plaintext_index != -1)
+	if (ciphertext_index != -1)
         {
 	    //place the index is shifted 
-	    var ciphertext_index = (plaintext_index - shift)%alphabet.length;
+	    var plaintext_index = (ciphertext_index - shift)%alphabet.length;
 	
             //retrieve the new letter
-            ciphertext = ciphertext + alphabet[ciphertext_index];
+            plaintext = plaintext + alphabet[plaintext_index];
         }
     }
 
