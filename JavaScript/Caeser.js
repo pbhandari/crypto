@@ -15,7 +15,7 @@ function mod(n, m) {
 
 function Caeser(shift, alphabet){
 
-    this.shift=shift;
+    var shift=shift;
     this.alphabet = typeof alphabet !== 'undefined' ? alphabet : alpha; 
      
     this.encrypt=encrypt;
@@ -40,7 +40,7 @@ function Caeser(shift, alphabet){
 	    if (plaintext_index != -1)
             {
 	        //place the index is shifted 
-	        var ciphertext_index = (this.alphabet.length, (plaintext_index + this.shift));
+	        var ciphertext_index = (this.alphabet.length, (plaintext_index + shift));
 	
                 //retrieve the new letter
                 ciphertext = ciphertext + this.alphabet[ciphertext_index];
@@ -73,7 +73,7 @@ function Caeser(shift, alphabet){
 	    if (ciphertext_index != -1)
             {
 	        //place the index is shifted 
-	        var plaintext_index = mod(this.alphabet.length,(ciphertext_index - this.shift));
+	        var plaintext_index = mod(this.alphabet.length,(ciphertext_index - shift));
 	
                 //retrieve the new letter
                 plaintext = plaintext + this.alphabet[plaintext_index];
@@ -216,4 +216,3 @@ function sanity_checks(){
 
 
 }
-
