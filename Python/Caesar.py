@@ -63,6 +63,38 @@ def ciphertext_only(ciphertext, alphabet=alpha):
     
     return plaintext
 
+def known_plaintext(plaintext, ciphertext, alphabet=alpha):
+    '''Both the ciphertext and plaintext are known, derive
+    the key'''
+    
+    return (alphabet.index(ciphertext[0]) - alphabet.index(plaintext[0]))%len(alphabet)
+
+def chosen_ciphertext(cipher, alphabet=alpha):
+    '''given access to the encryption machine
+       derive the key'''
+
+    #decode the first letter in the alphabet
+    decoded_letter = cipher.decrypt(alphabet[0])
+
+    #find the negative shift
+    key = alphabet.index(decoded_letter)
+
+    #derive the key
+    key = (key * (-1))%len(alphabet)
+
+    return key
+
+def chosen_plaintext(cipher, alphabet=alpha):
+    '''given access to the decryption machine
+    derive the key'''
+
+    #decode the first letter in the alphabet
+    encoded_letter = cipher.decrypt(alphabet[0])
+
+    #find the negative shift
+    key = (alphabet.index(encoded_letter))%len(alphabet)
+    
+    return key
 
 
 if __name__ == "__main__":
