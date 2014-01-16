@@ -97,8 +97,3 @@ def chosen_plaintext(cipher, alphabet=alpha):
     return key
 
 
-if __name__ == "__main__":
-    a = Caesar(3) 
-    print(a.encrypt("hello"))
-    print(a.decrypt("khoor"))
-    print(ciphertext_only("khoor")) 
