@@ -1,5 +1,5 @@
-JavaScript
-==========
+Java
+====
 
 Implementations of cryptographic functions 
-in JavaScript.
+in Java.
