@@ -115,6 +115,10 @@ public class Caesar
 		System.out.println(a.encrypt("hello"));
 		System.out.println(a.decrypt("khoor"));
         c.ciphertextOnly("khoor");
+        System.out.println(c.knownPlaintext("hello", "khoor"));
+        System.out.println(c.chosenPlaintext(a));
+        System.out.println(c.chosenCiphertext(a));
+        
 	}
 	
 }
@@ -160,6 +164,10 @@ class Exploits
         this.alphabet = alphabetVal;
     }
 
+    public int mod(int n, int m) {
+        return ((n % m) + m) % m;
+    }
+
     public void ciphertextOnly(String ciphertext)
     {
 
@@ -169,6 +177,25 @@ class Exploits
             c = new Caesar(i, this.alphabet);
             System.out.println(c.decrypt(ciphertext));
         }
+    }
+    
+    public int knownPlaintext(String plaintext, String ciphertext)
+    {
+        return alphabet.indexOf(ciphertext.charAt(0)) - alphabet.indexOf(plaintext.charAt(0)); 
+    }
+
+    public int chosenPlaintext(Caesar cipher)
+    {
+        char ciphertext = cipher.encrypt(String.valueOf(this.alphabet.get(0))).charAt(0);
+        return alphabet.indexOf(ciphertext); 
+    }
+
+    public int chosenCiphertext(Caesar cipher)
+    {
+        char plaintext = cipher.decrypt(String.valueOf(this.alphabet.get(0))).charAt(0);
+        int key =  alphabet.indexOf(plaintext); 
+        key = mod(key * (-1), this.alphabet.size());
+        return key;
     }
 }
 
