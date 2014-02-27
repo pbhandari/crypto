@@ -17,9 +17,13 @@ public class Caesar
 	 * @param the alphabet to be used*/
 	public Caesar(int shiftVal, ArrayList alphabetVal)
 	{
-		shift =  shiftVal;
-		alphabet = alphabetVal;
+		this.shift =  shiftVal;
+		this.alphabet = alphabetVal;
 	}
+
+    public int mod(int n, int m) {
+        return ((n % m) + m) % m;
+    }
 	
 	/**
 	 * creates a new Caeser, in order to encrypt and 
@@ -27,41 +31,41 @@ public class Caesar
 	 * @param the caesar shift*/
 	public Caesar(int shiftVal)
 	{
-		shift = shiftVal;
+		this.shift = shiftVal;
 		
 		/*decided to go with an arraylist because
 		 *it would allow quick search of elements as opposed to
 		 *a simple array where a seperate function would need 
 		 *to have been written*/
 		
-		alphabet = new ArrayList();
+		this.alphabet = new ArrayList();
 		
-		alphabet.add(0, 'a');
-		alphabet.add(1, 'b');
-		alphabet.add(2, 'c');
-		alphabet.add(3, 'd');
-		alphabet.add(4, 'e');
-		alphabet.add(5, 'f');
-		alphabet.add(6, 'g');
-		alphabet.add(7, 'h');
-		alphabet.add(8, 'i');
-		alphabet.add(9, 'j');
-		alphabet.add(10, 'k');
-		alphabet.add(11, 'l');
-		alphabet.add(12, 'm');
-		alphabet.add(13, 'n');
-		alphabet.add(14, 'o');
-		alphabet.add(15, 'p');
-		alphabet.add(16, 'q');
-		alphabet.add(17, 'r');
-		alphabet.add(18, 's');
-		alphabet.add(19, 't');
-		alphabet.add(20, 'u');
-		alphabet.add(21, 'v');
-		alphabet.add(22, 'w');
-		alphabet.add(23, 'x');
-		alphabet.add(24, 'y');
-		alphabet.add(25, 'z');
+		this.alphabet.add(0, 'a');
+		this.alphabet.add(1, 'b');
+		this.alphabet.add(2, 'c');
+		this.alphabet.add(3, 'd');
+		this.alphabet.add(4, 'e');
+		this.alphabet.add(5, 'f');
+		this.alphabet.add(6, 'g');
+		this.alphabet.add(7, 'h');
+		this.alphabet.add(8, 'i');
+		this.alphabet.add(9, 'j');
+		this.alphabet.add(10, 'k');
+		this.alphabet.add(11, 'l');
+		this.alphabet.add(12, 'm');
+		this.alphabet.add(13, 'n');
+		this.alphabet.add(14, 'o');
+		this.alphabet.add(15, 'p');
+		this.alphabet.add(16, 'q');
+		this.alphabet.add(17, 'r');
+		this.alphabet.add(18, 's');
+		this.alphabet.add(19, 't');
+		this.alphabet.add(20, 'u');
+		this.alphabet.add(21, 'v');
+		this.alphabet.add(22, 'w');
+		this.alphabet.add(23, 'x');
+		this.alphabet.add(24, 'y');
+		this.alphabet.add(25, 'z');
 	}
 	
 	/**
@@ -75,9 +79,9 @@ public class Caesar
 		
 		for(int i=0; i < plaintext.length(); i++)
 		{
-			int x = alphabet.indexOf(plaintext.charAt(i));
-			int encodedIndex = (x + shift)%alphabet.size();
-			ciphertext += alphabet.get(encodedIndex);
+			int x = this.alphabet.indexOf(plaintext.charAt(i));
+			int encodedIndex = mod((x + this.shift), this.alphabet.size());
+			ciphertext += this.alphabet.get(encodedIndex);
 			
 		}
 		
@@ -95,9 +99,9 @@ public class Caesar
 		
 		for(int i=0; i < ciphertext.length(); i++)
 		{
-			int x = alphabet.indexOf(ciphertext.charAt(i));
-			int decodedIndex = (x - shift)%alphabet.size();
-			plaintext += alphabet.get(decodedIndex);
+			int x = this.alphabet.indexOf(ciphertext.charAt(i));
+			int decodedIndex = mod((x - this.shift), this.alphabet.size());
+			plaintext += this.alphabet.get(decodedIndex);
 			
 		}
 		
@@ -107,9 +111,64 @@ public class Caesar
 	public static void main(String[] args)
 	{
 		Caesar a = new Caesar(3);
-		exploits c = new exploits();
+		Exploits c = new Exploits();
 		System.out.println(a.encrypt("hello"));
 		System.out.println(a.decrypt("khoor"));
+        c.ciphertextOnly("khoor");
 	}
 	
 }
+
+class Exploits
+{
+    public ArrayList alphabet;
+
+    public Exploits()
+    {
+		this.alphabet = new ArrayList();
+		
+		this.alphabet.add(0, 'a');
+		this.alphabet.add(1, 'b');
+		this.alphabet.add(2, 'c');
+		this.alphabet.add(3, 'd');
+		this.alphabet.add(4, 'e');
+		this.alphabet.add(5, 'f');
+		this.alphabet.add(6, 'g');
+		this.alphabet.add(7, 'h');
+		this.alphabet.add(8, 'i');
+		this.alphabet.add(9, 'j');
+		this.alphabet.add(10, 'k');
+		this.alphabet.add(11, 'l');
+		this.alphabet.add(12, 'm');
+		this.alphabet.add(13, 'n');
+		this.alphabet.add(14, 'o');
+		this.alphabet.add(15, 'p');
+		this.alphabet.add(16, 'q');
+		this.alphabet.add(17, 'r');
+		this.alphabet.add(18, 's');
+		this.alphabet.add(19, 't');
+		this.alphabet.add(20, 'u');
+		this.alphabet.add(21, 'v');
+		this.alphabet.add(22, 'w');
+		this.alphabet.add(23, 'x');
+		this.alphabet.add(24, 'y');
+		this.alphabet.add(25, 'z');
+    }
+
+    public Exploits(ArrayList alphabetVal)
+    {
+        this.alphabet = alphabetVal;
+    }
+
+    public void ciphertextOnly(String ciphertext)
+    {
+
+        Caesar c; 
+        for(int i=0; i < alphabet.size(); i++)
+        {
+            c = new Caesar(i, this.alphabet);
+            System.out.println(c.decrypt(ciphertext));
+        }
+    }
+}
+
