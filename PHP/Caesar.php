@@ -1,11 +1,19 @@
 <?php 
-
+/*******************************
+ * By Adam Ortiz
+ * implementation of Caeser/shift 
+ * cipher in PHP.
+ ********************************/
     class Caeser 
     {
 
         private $shift;
         private $alphabet;
-
+        
+        /*
+        * Constructor which calls on the other constructors 
+        * to simulate function overloading. 
+        */
         function __construct()
         {
             $argn = func_num_args();
@@ -18,12 +26,23 @@
         }
 
 
+        /*
+        * creates a new Caeser, in order to encrypt and 
+        * decrypt from
+        * shiftval - shift value number
+        * alphabetVal - alphabet array to be used 
+        */
         function __construct2($shiftVal, $alphabetVal)
         {
             $this->shift = $shiftVal;
             $this->alphabet = alphabetVal;
         }
 
+        /*
+        * creates a new Caeser, in order to encrypt and 
+        * decrypt from. uses standard alphabet.
+        * shiftval - shift value number
+        */
         function __construct1($shiftVal)
         {
             $this->shift = $shiftVal;
@@ -35,7 +54,12 @@
                                20=>"u", 21=>"v", 22=>"w", 23=>"x", 24=>"y", 
                                25=>"z");
         }
-    
+     
+        /*
+        * Used to encrypt plaintext,
+        * param plaintext
+        * returns ciphertext 
+        */
         function encrypt($plaintext)
         {
            $plaintext = strtolower($plaintext);
@@ -51,6 +75,11 @@
         }
        
          
+        /*
+        * Used to decrypt ciphertext,
+        * param ciphertext 
+        * returns plaintext
+        */
         function decrypt($ciphertext)
         {
            $ciphertext = strtolower($ciphertext);

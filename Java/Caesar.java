@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
 /*******************************
-2 * @author Adam Ortiz
-3 * implementation of Caeser/shift 
-4 * cipher in Java.
-5 ********************************/
+ * @author Adam Ortiz
+ * implementation of Caeser/shift 
+ * cipher in Java.
+ ********************************/
 public class Caesar
 {	
 	private int shift;
