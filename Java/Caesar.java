@@ -123,6 +123,9 @@ public class Caesar
 	
 }
 
+/*
+ * class which holds the known exploits for caesar cipher
+*/
 class Exploits
 {
     public ArrayList alphabet;
@@ -167,7 +170,10 @@ class Exploits
     public int mod(int n, int m) {
         return ((n % m) + m) % m;
     }
-
+    
+    /* Only a copy of the cipher text is known, the best
+     * course of action in this case is to try all 
+     * possibilities*/
     public void ciphertextOnly(String ciphertext)
     {
 
@@ -179,17 +185,26 @@ class Exploits
         }
     }
     
+    /* a copy of both the plaintext and ciphertext is known,
+     * deduce the key
+     */
     public int knownPlaintext(String plaintext, String ciphertext)
     {
         return alphabet.indexOf(ciphertext.charAt(0)) - alphabet.indexOf(plaintext.charAt(0)); 
     }
 
+    /* access to encryption machine. currently passes a
+     * an object instance.
+     */
     public int chosenPlaintext(Caesar cipher)
     {
         char ciphertext = cipher.encrypt(String.valueOf(this.alphabet.get(0))).charAt(0);
         return alphabet.indexOf(ciphertext); 
     }
 
+    /* access to decryption machine. currently passes a
+     * an object instance.
+     */
     public int chosenCiphertext(Caesar cipher)
     {
         char plaintext = cipher.decrypt(String.valueOf(this.alphabet.get(0))).charAt(0);
