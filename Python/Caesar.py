@@ -51,49 +51,54 @@ class Caesar:
            
         return plaintext
 
-def ciphertext_only(ciphertext, alphabet=alpha):
-    '''attack used when the only thing the
-    attacker has is the ciphertext'''
+class Exploits:
+    def __init__(self, alphabet=alpha):
+        self.alphabet = alphabet
+
+
+    def ciphertext_only(self, ciphertext):
+        '''attack used when the only thing the
+        attacker has is the ciphertext'''
     
-    plaintext = []
+        plaintext = []
 
-    for shift in range(len(alphabet)):
-        cipher =  Caesar(shift, alphabet)
-        plaintext.append(cipher.decrypt(ciphertext))
+        for shift in range(len(self.alphabet)):
+            cipher =  Caesar(shift, self.alphabet)
+            plaintext.append(cipher.decrypt(ciphertext))
     
-    return plaintext
+        return plaintext
 
-def known_plaintext(plaintext, ciphertext, alphabet=alpha):
-    '''Both the ciphertext and plaintext are known, derive
-    the key'''
+    def known_plaintext(self, plaintext, ciphertext):
+        '''Both the ciphertext and plaintext are known, derive
+        the key'''
     
-    return (alphabet.index(ciphertext[0]) - alphabet.index(plaintext[0]))%len(alphabet)
+        return (self.alphabet.index(ciphertext[0]) - self.alphabet.index(plaintext[0]))%len(self.alphabet)
 
-def chosen_ciphertext(cipher, alphabet=alpha):
-    '''given access to the encryption machine
-       derive the key'''
+    def chosen_ciphertext(self, cipher):
+        '''given access to the encryption machine
+        derive the key'''
 
-    #decode the first letter in the alphabet
-    decoded_letter = cipher.decrypt(alphabet[0])
+        #decode the first letter in the alphabet
+        decoded_letter = cipher.decrypt(self.alphabet[0])
 
-    #find the negative shift
-    key = alphabet.index(decoded_letter)
+        #find the negative shift
+        key = self.alphabet.index(decoded_letter)
 
-    #derive the key
-    key = (key * (-1))%len(alphabet)
+        #derive the key
+        key = (key * (-1))%len(self.alphabet)
 
-    return key
+        return key
 
-def chosen_plaintext(cipher, alphabet=alpha):
-    '''given access to the decryption machine
-    derive the key'''
+    def chosen_plaintext(self, cipher):
+        '''given access to the decryption machine
+        derive the key'''
 
-    #decode the first letter in the alphabet
-    encoded_letter = cipher.decrypt(alphabet[0])
+        #decode the first letter in the alphabet
+        encoded_letter = cipher.decrypt(self.alphabet[0])
 
-    #find the negative shift
-    key = (alphabet.index(encoded_letter))%len(alphabet)
+        #find the negative shift
+        key = (self.alphabet.index(encoded_letter))%len(self.alphabet)
     
-    return key
+        return key
 
 
