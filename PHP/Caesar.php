@@ -100,7 +100,9 @@ function mod($n, $m) {
         
     }
 
-
+    /*
+     * class which holds the known exploits for caesar cipher
+     */
     class Exploits
     {
         
@@ -133,6 +135,9 @@ function mod($n, $m) {
             $this->alphabet = $alphabetVal;
         }
 
+        /* Only a copy of the cipher text is known, the best
+         * course of action in this case is to try all 
+         * possibilities.*/
         function ciphertext_only($ciphertext)
         {
             
@@ -142,18 +147,27 @@ function mod($n, $m) {
                 echo $cipher->decrypt($ciphertext) . "\n";
             }
         }
-
+        
+        /* a copy of both the plaintext and ciphertext is known,
+         * deduce the key
+         */
         function known_plaintext($plaintext, $ciphertext)
         {
             return mod((array_search($ciphertext[0], $this->alphabet) - array_search($plaintext[0], $this->alphabet)), sizeOf($this->alphabet));
         }
-
+        
+        /* access to encryption machine. currently passes a
+         * an object instance.
+         */
         function chosen_plaintext($cipher)
         {
             $ciphertext = $cipher->encrypt($this->alphabet[0]);
             return array_search($ciphertext, $this->alphabet);
         }
 
+        /* access to decryption machine. currently passes a
+         * an object instance.
+         */
         function chosen_ciphertext($cipher)
         {
             $plaintext = $cipher->decrypt($this->alphabet[0]);
