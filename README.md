@@ -10,8 +10,10 @@ purposes.
 Caesar
 ------
 
-- JavaScript.
-- Python.
 - C++.
+- Java.
+- JavaScript.
 - PHP.
-- Java. 
+- Perl.
+- Python.
+- Ruby. 
