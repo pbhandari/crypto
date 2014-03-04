@@ -94,7 +94,7 @@ class Exploits:
         derive the key'''
 
         #decode the first letter in the alphabet
-        encoded_letter = cipher.decrypt(self.alphabet[0])
+        encoded_letter = cipher.encrypt(self.alphabet[0])
 
         #find the negative shift
         key = (self.alphabet.index(encoded_letter))%len(self.alphabet)
