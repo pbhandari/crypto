@@ -5,12 +5,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import Caesar;
 
 public class CaesarTest
 {
-    @before
-    public void setUp(){
+    @Before
+    public void setUp()
+    {
         ArrayList alphabet = new ArrayList();
 
         alphabet.add(0, 'a');
@@ -45,12 +45,14 @@ public class CaesarTest
     public void testSanity()
     {
         Caesar a = new Caesar(3);
-        Exploits c = new Exploits();
+        CaesarExploits c = new CaesarExploits();
         assertEquals("encrypt sanity check", a.encrypt("hello"), "khoor");
         assertEquals("decrypt sanity check", a.decrypt("khoor"), "hello");
         //c.ciphertextOnly("khoor"); //need to fix this function to return an arraylist
         assertEquals("known plaintext sanity check", 3, c.knownPlaintext("hello", "khoor"));
         assertEquals("chosen plaintext sanity check", 3, c.chosenPlaintext(a));
         assertEquals("chosen ciphertext sanity check", 3,c.chosenCiphertext(a));
-    } 
+    }
+       
+     
 } 
