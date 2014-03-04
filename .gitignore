@@ -10,3 +10,9 @@ C++/a.out
 PHP/.Caesar.php.swp
 
 Ruby/.Caesar.rb.swp
+
+tests/Java/bin/Caesar.class
+
+tests/Java/bin/CaesarExploits.class
+
+tests/Java/bin/CaesarTest.class
