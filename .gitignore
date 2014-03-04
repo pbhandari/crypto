@@ -18,3 +18,7 @@ tests/Java/bin/CaesarExploits.class
 tests/Java/bin/CaesarTest.class
 
 lib/Python/Caesar.pyc
+
+lib/Python/CaesarExploits.pyc
+
+*.swp

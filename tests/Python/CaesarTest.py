@@ -1,4 +1,5 @@
 from Caesar import *
+from CaesarExploits import *
 import unittest
 
 class TestCaesar(unittest.TestCase):
@@ -8,7 +9,7 @@ class TestCaesar(unittest.TestCase):
    
     def test_sanity(self):
         c = Caesar(3)
-        e = Exploits()
+        e = CaesarExploits()
         self.assertTrue(c.encrypt("hello")=="khoor") 
         self.assertTrue(c.decrypt("khoor")=="hello")
         self.assertTrue(e.known_plaintext("hello", "khoor") == 3)
