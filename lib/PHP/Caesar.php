@@ -178,12 +178,4 @@ function mod($n, $m) {
 
     }
 
-    $c = new Caesar(3);
-    echo $c->encrypt("hello") . "\n"; 
-    echo $c->decrypt("khoor") . "\n";
-    $e = new Exploits();
-    $e->ciphertext_only("khoor");
-    echo $e->known_plaintext("hello", "khoor") . "\n";
-    echo $e->chosen_plaintext($c). "\n";
-    echo $e->chosen_ciphertext($c). "\n";
 ?>
