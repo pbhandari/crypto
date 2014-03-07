@@ -14,6 +14,5 @@ Caesar
 - Java.
 - JavaScript.
 - PHP.
-- Perl.
 - Python.
 - Ruby. 
