@@ -22,3 +22,5 @@ lib/Python/Caesar.pyc
 lib/Python/CaesarExploits.pyc
 
 *.swp
+
+*.pyc
