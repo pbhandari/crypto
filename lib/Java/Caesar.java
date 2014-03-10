@@ -8,14 +8,14 @@ import java.util.ArrayList;
 public class Caesar
 {	
 	private int shift;
-	private ArrayList alphabet;
+	private Alphabet alphabet;
 	
 	/**
 	 * creates a new Caeser, in order to encrypt and 
 	 * decrypt from 
 	 * @param the caesar shift
 	 * @param the alphabet to be used*/
-	public Caesar(int shiftVal, ArrayList alphabetVal)
+	public Caesar(int shiftVal, Alphabet alphabetVal) throws Exception
 	{
 		this.shift =  shiftVal;
 		this.alphabet = alphabetVal;
@@ -29,7 +29,7 @@ public class Caesar
 	 * creates a new Caeser, in order to encrypt and 
 	 * decrypt from. uses standard alphabet
 	 * @param the caesar shift*/
-	public Caesar(int shiftVal)
+	public Caesar(int shiftVal) throws Exception
 	{
 		this.shift = shiftVal;
 		
@@ -37,35 +37,7 @@ public class Caesar
 		 *it would allow quick search of elements as opposed to
 		 *a simple array where a seperate function would need 
 		 *to have been written*/
-		
-		this.alphabet = new ArrayList();
-		
-		this.alphabet.add(0, 'a');
-		this.alphabet.add(1, 'b');
-		this.alphabet.add(2, 'c');
-		this.alphabet.add(3, 'd');
-		this.alphabet.add(4, 'e');
-		this.alphabet.add(5, 'f');
-		this.alphabet.add(6, 'g');
-		this.alphabet.add(7, 'h');
-		this.alphabet.add(8, 'i');
-		this.alphabet.add(9, 'j');
-		this.alphabet.add(10, 'k');
-		this.alphabet.add(11, 'l');
-		this.alphabet.add(12, 'm');
-		this.alphabet.add(13, 'n');
-		this.alphabet.add(14, 'o');
-		this.alphabet.add(15, 'p');
-		this.alphabet.add(16, 'q');
-		this.alphabet.add(17, 'r');
-		this.alphabet.add(18, 's');
-		this.alphabet.add(19, 't');
-		this.alphabet.add(20, 'u');
-		this.alphabet.add(21, 'v');
-		this.alphabet.add(22, 'w');
-		this.alphabet.add(23, 'x');
-		this.alphabet.add(24, 'y');
-		this.alphabet.add(25, 'z');
+        this.alphabet = new Alphabet("../../etc/Frequency/English.csv");
 	}
 	
 	/**
@@ -79,9 +51,9 @@ public class Caesar
 		
 		for(int i=0; i < plaintext.length(); i++)
 		{
-			int x = this.alphabet.indexOf(plaintext.charAt(i));
+			int x = this.alphabet.indexOf(String.valueOf(plaintext.charAt(i)));
 			int encodedIndex = mod((x + this.shift), this.alphabet.size());
-			ciphertext += this.alphabet.get(encodedIndex);
+			ciphertext += (this.alphabet.get(encodedIndex)).get(0);
 			
 		}
 		
@@ -99,27 +71,15 @@ public class Caesar
 		
 		for(int i=0; i < ciphertext.length(); i++)
 		{
-			int x = this.alphabet.indexOf(ciphertext.charAt(i));
+			int x = this.alphabet.indexOf(String.valueOf(ciphertext.charAt(i)));
 			int decodedIndex = mod((x - this.shift), this.alphabet.size());
-			plaintext += this.alphabet.get(decodedIndex);
+			plaintext += (this.alphabet.get(decodedIndex)).get(0);
 			
 		}
 		
 		return plaintext;
 	}
 	
-	public static void main(String[] args)
-	{
-		Caesar a = new Caesar(3);
-		CaesarExploits c = new CaesarExploits();
-		System.out.println(a.encrypt("hello"));
-		System.out.println(a.decrypt("khoor"));
-        c.ciphertextOnly("khoor");
-        System.out.println(c.knownPlaintext("hello", "khoor"));
-        System.out.println(c.chosenPlaintext(a));
-        System.out.println(c.chosenCiphertext(a));
-        
-	}
 	
 }
 
