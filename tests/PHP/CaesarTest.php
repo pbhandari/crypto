@@ -1,5 +1,5 @@
 <?php
-include '../../lib/PHP/Caesar.php';
+include(realpath(dirname(__FILE__) . '/../../lib/PHP/Caesar.php'));
 
 class CaesarTest extends PHPUnit_Framework_TestCase
 {
