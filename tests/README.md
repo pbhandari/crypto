@@ -15,3 +15,10 @@ Unit Testing Frameworks used
 - PHPUnit.
 - unittest (Python).
 
+Requirements
+------------
+- To run the PHPUnit test make sure you have the following 
+  line in your `php.ini`
+```
+extension=phar.so
+```
