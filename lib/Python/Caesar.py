@@ -1,21 +1,14 @@
-#!/usr/bin/python
+from Alphabet import *
 '''*******************************
 *Written By Adam Ortiz
 *implementation of Caeser/shift 
 *cipher in Python
 ********************************'''
 
-alpha = ['a', 'b', 'c', 'd', 
-            'e', 'f', 'g', 'h', 
-            'i', 'j', 'k', 'l', 
-            'm', 'n', 'o', 'p', 
-            'q', 'r', 's', 't',
-            'u', 'v', 'w', 'x',
-            'y', 'z']
 
 class Caesar:
         
-    def __init__(self, shift, alphabet=alpha):
+    def __init__(self, shift, alphabet=Alphabet("../../etc/Frequency/English.csv")):
         self.shift = shift
         self.alphabet = alphabet
 
@@ -29,7 +22,7 @@ class Caesar:
         for letter in plaintext:
             if letter in self.alphabet:
                 x  =  self.alphabet.index(letter)
-                ciphertext += alpha[(x+ self.shift)%len(self.alphabet)]
+                ciphertext += self.alphabet[(x+ self.shift)%len(self.alphabet)][0]
             else:
                 ciphertext += letter
            
@@ -45,7 +38,7 @@ class Caesar:
         for letter in ciphertext:
             if letter in self.alphabet:
                 x  =  self.alphabet.index(letter)
-                plaintext += alpha[(x-self.shift)%len(self.alphabet)]
+                plaintext += self.alphabet[(x-self.shift)%len(self.alphabet)][0]
             else:
                 plaintext += letter
            
@@ -53,7 +46,7 @@ class Caesar:
 
 
 class CaesarExploits:
-    def __init__(self, alphabet=alpha):
+    def __init__(self, alphabet=Alphabet("../../etc/Frequency/English.csv")):
         self.alphabet = alphabet
 
 
@@ -80,7 +73,7 @@ class CaesarExploits:
         derive the key'''
 
         #decode the first letter in the alphabet
-        decoded_letter = cipher.decrypt(self.alphabet[0])
+        decoded_letter = cipher.decrypt(self.alphabet[0][0])
 
         #find the negative shift
         key = self.alphabet.index(decoded_letter)
@@ -96,7 +89,7 @@ class CaesarExploits:
         derive the key'''
 
         #decode the first letter in the alphabet
-        encoded_letter = cipher.encrypt(self.alphabet[0])
+        encoded_letter = cipher.encrypt(self.alphabet[0][0])
 
         #find the negative shift
         key = (self.alphabet.index(encoded_letter))%len(self.alphabet)
