@@ -107,16 +107,3 @@ class Exploits
 
 end
 
-c = Caesar.new(3)
-print c.encrypt("hello")
-print "\n"
-print c.decrypt("khoor")
-print "\n"
-e = Exploits.new()
-e.ciphertext_only("khoor")
-print e.known_plaintext("hello","khoor")
-print "\n"
-print e.chosen_plaintext(c)
-print "\n"
-print e.chosen_ciphertext(c)
-print "\n"
