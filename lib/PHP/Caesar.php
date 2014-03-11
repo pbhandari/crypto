@@ -1,4 +1,5 @@
-<?php 
+<?php
+include(realpath(dirname(__FILE__) . '/../../etc/Alphabet/PHP/Alphabet.php')); 
 /*******************************
  * By Adam Ortiz
  * implementation of Caeser/shift 
@@ -50,13 +51,7 @@ function mod($n, $m) {
         function __construct1($shiftVal)
         {
             $this->shift = $shiftVal;
-            
-            $this->alphabet = array( 0=>"a", 1=>"b", 2=>"c", 3=>"d", 4=>"e", 
-                               5=>"f", 6=>"g", 7=>"h", 8=>"i", 9=>"j", 
-                               10=>"k", 11=>"l", 12=>"m", 13=>"n", 14=>"o", 
-                               15=>"p", 16=>"q", 17=>"r", 18=>"s", 19=>"t", 
-                               20=>"u", 21=>"v", 22=>"w", 23=>"x", 24=>"y", 
-                               25=>"z");
+            $this->alphabet = new Alphabet(); 
         }
      
         /*
@@ -71,9 +66,9 @@ function mod($n, $m) {
         
             for ( $i = 0; $i < strlen($plaintext); $i++ )
             {
-                $x = array_search($plaintext[$i],$this->alphabet);
-                $encodedIndex = mod(($x + $this->shift), sizeOf($this->alphabet));
-                $ciphertext = $ciphertext . $this->alphabet[$encodedIndex];
+                $x = $this->alphabet->indexOf($plaintext[$i]);
+                $encodedIndex = mod(($x + $this->shift), $this->alphabet->sizeOf());
+                $ciphertext = $ciphertext . ($this->alphabet->get($encodedIndex)[0]);
             }
             return $ciphertext;
         }
@@ -91,9 +86,9 @@ function mod($n, $m) {
         
             for ( $i = 0; $i < strlen($ciphertext); $i++ )
             {
-                $x = array_search($ciphertext[$i],$this->alphabet);
-                $decodedIndex = mod(($x - $this->shift), sizeOf($this->alphabet));
-                $plaintext = $plaintext . $this->alphabet[$decodedIndex];
+                $x = $this->alphabet->indexOf($ciphertext[$i]);
+                $decodedIndex = mod(($x - $this->shift), $this->alphabet->sizeOf());
+                $plaintext = $plaintext . ($this->alphabet->get($decodedIndex)[0]);
             }
             return $plaintext;
         }
@@ -122,12 +117,7 @@ function mod($n, $m) {
         function __construct0()
         {
     
-            $this->alphabet = array( 0=>"a", 1=>"b", 2=>"c", 3=>"d", 4=>"e", 
-                               5=>"f", 6=>"g", 7=>"h", 8=>"i", 9=>"j", 
-                               10=>"k", 11=>"l", 12=>"m", 13=>"n", 14=>"o", 
-                               15=>"p", 16=>"q", 17=>"r", 18=>"s", 19=>"t", 
-                               20=>"u", 21=>"v", 22=>"w", 23=>"x", 24=>"y", 
-                               25=>"z");
+            $this->alphabet = new Alphabet(); 
         }
 
         function __construct1($alphabetVal)
@@ -141,7 +131,7 @@ function mod($n, $m) {
         function ciphertext_only($ciphertext)
         {
             
-            for($i=0; $i < sizeOF($this->alphabet); $i++)
+            for($i=0; $i < $this->alphabet->sizeOf(); $i++)
             {
                 $cipher = new Caesar($i, $this->alphabet);
                 echo $cipher->decrypt($ciphertext) . "\n";
@@ -153,7 +143,7 @@ function mod($n, $m) {
          */
         function known_plaintext($plaintext, $ciphertext)
         {
-            return mod((array_search($ciphertext[0], $this->alphabet) - array_search($plaintext[0], $this->alphabet)), sizeOf($this->alphabet));
+            return mod( $this->alphabet->indexOf($ciphertext[0]) - $this->alphabet->indexOf($plaintext[0]), $this->alphabet->sizeOf());
         }
         
         /* access to encryption machine. currently passes a
@@ -161,8 +151,8 @@ function mod($n, $m) {
          */
         function chosen_plaintext($cipher)
         {
-            $ciphertext = $cipher->encrypt($this->alphabet[0]);
-            return array_search($ciphertext, $this->alphabet);
+            $ciphertext = $cipher->encrypt($this->alphabet->get(0)[0]);
+            return $this->alphabet->indexOf($ciphertext);
         }
 
         /* access to decryption machine. currently passes a
@@ -170,9 +160,9 @@ function mod($n, $m) {
          */
         function chosen_ciphertext($cipher)
         {
-            $plaintext = $cipher->decrypt($this->alphabet[0]);
-            $key = array_search($plaintext, $this->alphabet);
-            $key = mod($key * (-1), sizeOf($this->alphabet));
+            $plaintext = $cipher->decrypt($this->alphabet->get(0)[0]);
+            $key = $this->alphabet->indexOf($plaintext);
+            $key = mod($key * (-1), $this->alphabet->sizeOf());
             return $key;
         }
 
