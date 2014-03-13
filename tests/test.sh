@@ -21,3 +21,8 @@ cd ./Ruby
 ./test.sh
 cd ../
 echo '**************Test Ruby*******************'
+echo '**************Test JavaScript*************'
+cd ./JavaScript
+./test.sh
+cd ../
+echo '**************Test JavaScript*************'

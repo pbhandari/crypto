@@ -23,4 +23,4 @@ Requirements
 ```
 extension=phar.so
 ```
--To run the JavaScript tests Node.js is required.
+- To run the JavaScript tests Node.js is required.
