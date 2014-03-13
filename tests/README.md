@@ -14,6 +14,7 @@ Unit Testing Frameworks used
 - JUnit.
 - PHPUnit.
 - unittest (Python).
+- assert in Node.js (JavaScript)
 
 Requirements
 ------------
@@ -22,3 +23,4 @@ Requirements
 ```
 extension=phar.so
 ```
+-To run the JavaScript tests Node.js is required.
