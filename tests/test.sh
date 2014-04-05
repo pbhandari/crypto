@@ -1,28 +1,17 @@
-#! /bin/bash
+#!/usr/bin/env bash
 
+SCR_PATH="` cd \`dirname $0\` ; pwd -P `"
 
-cd ./Java
-echo '**************Test Java*******************'
-./test.sh
-echo '**************Test Java*******************'
-cd ../
-cd ./Python
-echo '**************Test Python*****************'
-./test.sh
-echo '**************Test Python*****************'
-cd ../
-echo '**************Test PHP********************'
-cd ./PHP
-./test.sh
-cd ../
-echo '**************Test PHP********************'
-echo '**************Test Ruby*******************'
-cd ./Ruby
-./test.sh
-cd ../
-echo '**************Test Ruby*******************'
-echo '**************Test JavaScript*************'
-cd ./JavaScript
-./test.sh
-cd ../
-echo '**************Test JavaScript*************'
+if [ $# -gt 0 ]; then
+    TEST_DIRS="$@"
+else
+    TEST_DIRS="`cd $SCR_PATH; find . -maxdepth 1 ! -path . -type d -printf '%f '`"
+fi
+{ IFS=" "
+    for dir in $TEST_DIRS; do
+        cd $SCR_PATH/$dir
+        echo "**************Test $dir*******************"
+        $SCR_PATH/$dir/test.sh
+        echo "**************Test $dir*******************"
+    done
+}
