@@ -13,9 +13,9 @@ fi
 
 {   IFS=" "
     for dir in $TEST_DIRS; do
-        cd $SCRIPT_PATH/$dir
         echo "**************Test $dir*******************"
         $SCRIPT_PATH/$dir/test.sh
         echo "**************Test $dir*******************"
+        echo
     done
 }
