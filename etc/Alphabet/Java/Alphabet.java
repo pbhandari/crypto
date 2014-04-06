@@ -32,10 +32,7 @@ class Alphabet
             this.frequency.add(lineSplit[1]);
         }
 
-        // XXX: Huh?
-        this.size = this.alphabet.size() > this.frequency.size()
-                    ? this.frequency.size()
-                    : this.frequency.size();
+        this.size = this.alphabet.size();
     }
 
     public int size()
