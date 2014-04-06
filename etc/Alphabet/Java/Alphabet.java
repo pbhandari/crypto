@@ -7,19 +7,19 @@ import java.lang.Throwable;
 class Alphabet
 {
 
-    private ArrayList alphabet;
-    private ArrayList frequency;
+    private ArrayList<String> alphabet;
+    private ArrayList<String> frequency;
     private int size;
 
     public Alphabet(Alphabet a)
     {
-         //TODO  
+         //TODO
     }
 
     public Alphabet(String fname) throws Exception
     {
-        this.alphabet = new ArrayList();
-        this.frequency = new ArrayList();
+        this.alphabet = new ArrayList<String>();
+        this.frequency = new ArrayList<String>();
         File f =  new File(fname);
         BufferedReader br = new BufferedReader(new FileReader(f));
         String line;
@@ -30,9 +30,9 @@ class Alphabet
             lineSplit = line.split(",");
             this.alphabet.add(lineSplit[0]);
             this.frequency.add(lineSplit[1]);
-        } 
-        
-        this.size = this.alphabet.size() > this.frequency.size() ? this.frequency.size() : this.frequency.size();
+        }
+
+        this.size = this.alphabet.size();
     }
 
     public int size()
@@ -45,29 +45,30 @@ class Alphabet
         return this.alphabet.toString() + this.frequency.toString();
     }
 
-    public ArrayList get(int i)
+    public ArrayList<String> get(int i)
     {
-        ArrayList temp = new ArrayList();
+        ArrayList<String> temp = new ArrayList<String>();
         temp.add(this.alphabet.get(i));
         temp.add(this.frequency.get(i));
         return temp;
     }
 
-    public int indexOf(String o)
+    public Integer indexOf(String o)
     {
         return (o==null ? null : this.alphabet.indexOf(o));
     }
 
     public static void main(String[] args)
     {
-        try{
+        try
+        {
             Alphabet a = new Alphabet("../../Frequency/English.csv");
             System.out.println(a);
             System.out.println(a.size());
             System.out.println(a.get(0));
             System.out.println(a.indexOf("a"));
-            
-        }catch(Exception e)
+        }
+        catch(Exception e)
         {
             e.printStackTrace();
         }
