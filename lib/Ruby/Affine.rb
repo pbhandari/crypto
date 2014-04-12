@@ -48,12 +48,11 @@ class Affine
     # Returns:
     # The plaintext encrypted using the Affine Cipher.
     def encrypt(plaintext)
-        ciphertext = ""
-        plaintext.downcase.each_char do |l|
-            i = @alph.index(l)
-            ciphertext += i.nil? ? l : @alph.at((i * @a + @b) % @alph.length)[0]
+        plaintext.downcase.each_char.inject("") do |cipher, letter|
+            i = @alph.index(letter)
+            cipher + (i.nil? ? letter
+                             : @alph.at(((i * @a) + @b) % @alph.length)[0])
         end
-        ciphertext
     end
 
     # Decrypts the ciphertext, encrypted using the Affine Cipher, into plaintext
@@ -64,11 +63,10 @@ class Affine
     # Returns:
     # The ciphertext decrypted using the Affine Cipher.
     def decrypt(ciphertext)
-        plaintext = ""
-        ciphertext.downcase.each_char do |l|
-            i = @alph.index(l)
-            plaintext += i.nil? ? l : @alph.at(@inv_a*(i-@b) % @alph.length)[0]
+        ciphertext.downcase.each_char.inject("") do |plain, letter|
+            i = @alph.index(letter)
+            plain + (i.nil? ? letter
+                            : @alph.at(@inv_a * (i - @b) % @alph.length)[0])
         end
-        plaintext
     end
 end
