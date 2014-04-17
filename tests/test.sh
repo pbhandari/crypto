@@ -2,20 +2,37 @@
 
 SCRIPT_PATH="` cd \`dirname $0\` ; pwd -P `"
 
-if [ $# -gt 0 ]; then
-    TEST_DIRS="$@"
-elif [ x"$CRYPTO_DEFAULT_TESTS" != x ]; then
-    TEST_DIRS=$CRYPTO_DEFAULT_TESTS
-else
-    TEST_DIRS="`cd $SCRIPT_PATH;\
+opts=$(getopt -o"hl:f:" -l"help,lang:,func:" -n${0##*/} -- "$@");
+eval set -- "${opts%--}"
+
+until [[ -z "$1" ]]; do
+    case $1 in
+        -l|--lang)
+            TEST_LANG=$2
+            shift
+            ;;
+        -f|--func)
+            TEST_FUNC=$2
+            shift
+            ;;
+        -h|--help)
+            echo "Usage: $0 [-l LANGUAGES] [-f FUNCTIONS]"
+            exit 0
+            ;;
+    esac
+    shift
+done
+
+if [[ -z "$TEST_LANG" ]]; then
+    TEST_LANG="`cd $SCRIPT_PATH;
                 find . -maxdepth 1 ! -path . -type d -printf '%f '`"
 fi
 
 {   IFS=" "
-    for dir in $TEST_DIRS; do
-        echo "**************Test $dir*******************"
-        $SCRIPT_PATH/$dir/test.sh
-        echo "**************Test $dir*******************"
+    for lang in $TEST_LANG; do
+        echo "**************Test $lang*******************"
+        $SCRIPT_PATH/$lang/test.sh --func="$TEST_FUNC"
+        echo "**************Test $lang*******************"
         echo
     done
 }
