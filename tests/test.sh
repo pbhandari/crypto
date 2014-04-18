@@ -2,7 +2,12 @@
 
 SCRIPT_PATH="` cd \`dirname $0\` ; pwd -P `"
 
-opts=$(getopt -o"hl:f:" -l"help,lang:,func:" -n${0##*/} -- "$@");
+if [ "$(uname)" == "Darwin" ]; then
+    opts=$(getopt "hl:f:" -- "$@");
+else
+    opts=$(getopt -o"hl:f:" -n${0##*/} -- "$@");
+fi
+
 eval set -- "${opts%--}"
 
 until [[ -z "$1" ]]; do
@@ -31,7 +36,7 @@ fi
 {   IFS=" "
     for lang in $TEST_LANG; do
         echo "**************Test $lang*******************"
-        $SCRIPT_PATH/$lang/test.sh --func="$TEST_FUNC"
+        $SCRIPT_PATH/$lang/test.sh -f"$TEST_FUNC"
         echo "**************Test $lang*******************"
         echo
     done

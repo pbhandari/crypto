@@ -4,7 +4,11 @@ cd `dirname $0`
 
 tests=""
 
-opts=$(getopt -o"hf:" -l"help,func:" -n${0##*/} -- "$@");
+if [ "$(uname)" == "Darwin" ]; then
+    opts=$(getopt "hf:" -- "$@");
+else
+    opts=$(getopt -o"hf:" -n${0##*/} -- "$@");
+fi
 eval set -- "${opts%--}"
 
 until [[ -z "$1" ]]; do
