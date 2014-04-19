@@ -34,8 +34,8 @@ until [[ -z "$1" ]]; do
 done
 
 if [[ -z "$TEST_LANG" ]]; then
-    TEST_LANG="`cd $SCRIPT_PATH;
-                find . -maxdepth 1 ! -path . -type d -printf '%f '`"
+    TEST_LANG=$(find $SCRIPT_PATH -maxdepth 1 ! -path . -type d -print \
+                | sed "s:${SCRIPT_PATH}/\?::g")
 fi
 
 {
