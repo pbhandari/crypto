@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 
-SCRIPT_PATH="` cd \`dirname $0\` ; pwd -P `"
+SCRIPT_PATH="$(cd $(dirname $0) ; pwd -P )"
 
-if [ "$(uname)" == "Darwin" ]; then
+if [[ "$(uname)" == "Darwin" ]]; then
     opts=$(getopt "hl:f:" -- "$@");
 else
     opts=$(getopt -o"hl:f:" -n${0##*/} -- "$@");
+fi
+
+if [[ $? != 0 ]]; then
+    echo "Usage: $0 [-l LANGUAGES] [-f FUNCTIONS]"
+    exit 1
 fi
 
 eval set -- "${opts%--}"
@@ -33,10 +38,10 @@ if [[ -z "$TEST_LANG" ]]; then
                 find . -maxdepth 1 ! -path . -type d -printf '%f '`"
 fi
 
-{   IFS=" "
+{
     for lang in $TEST_LANG; do
         echo "**************Test $lang*******************"
-        $SCRIPT_PATH/$lang/test.sh -f"$TEST_FUNC"
+        $SCRIPT_PATH/$lang/test.sh ${TEST_FUNC+"-f $TEST_FUNC"}
         echo "**************Test $lang*******************"
         echo
     done
